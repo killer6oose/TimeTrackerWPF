@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using System.Windows.Documents;
 using System.Linq;
 using System.Text;
+using System.Windows.Navigation;
 
 namespace TimeTrackerWPF
 {
@@ -15,13 +16,11 @@ namespace TimeTrackerWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly string ProjectsFolderPath;
         private readonly DispatcherTimer hourlyTimer;
+        private readonly string ProjectsFolderPath;
         private readonly DispatcherTimer timer;
-        private DateTime StartTime;
         private string SelectedFilePath;
-
-        public bool IsTimerRunning { get; private set; }
+        private DateTime StartTime;
 
         public MainWindow()
         {
@@ -58,40 +57,7 @@ namespace TimeTrackerWPF
             IsTimerRunning = false;
         }
 
-        private void HourlyTimer_Tick(object sender, EventArgs e)
-        {
-            // Your code for the HourlyTimer_Tick event handler goes here
-        }
-
-        private void LoadProjectFiles()
-        {
-            ProjectList.Items.Clear();
-            string[] projectFiles = Directory.GetFiles(ProjectsFolderPath, "*.txt");
-            foreach (string projectFile in projectFiles)
-            {
-                ProjectList.Items.Add(Path.GetFileName(projectFile));
-            }
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            if (DateTime.Now.Hour == 12)
-            {
-                this.Topmost = true;
-                this.Topmost = false;
-            }
-        }
-
-        private void NewMethod(string newProjectFileName)
-        {
-            SelectedFilePath = newProjectFileName;
-        }
-
-        private void NewProjectBtn_Click(object sender, RoutedEventArgs e)
-        {
-            // Open the NewProjectPopup when NewProjectBtn is clicked
-            NewProjectPopup.IsOpen = true;
-        }
+        public bool IsTimerRunning { get; private set; }
 
         private void CreateNewProjectButton_Click(object sender, RoutedEventArgs e)
         {
@@ -121,6 +87,81 @@ namespace TimeTrackerWPF
             }
         }
 
+        private string GetTextFromRichTextBox(RichTextBox richTextBox)
+        {
+            // Create a StringBuilder to concatenate text from all blocks
+            StringBuilder sb = new StringBuilder();
+
+            // Iterate through each block and append its text to the StringBuilder
+            foreach (Block block in richTextBox.Document.Blocks)
+            {
+                if (block is Paragraph paragraph)
+                {
+                    sb.AppendLine(paragraph.Inlines.FirstOrDefault()?.ContentStart.GetTextInRun(LogicalDirection.Forward));
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        private void HourlyTimer_Tick(object sender, EventArgs e)
+        {
+            // Your code for the HourlyTimer_Tick event handler goes here
+        }
+
+        private void LoadProjectFiles()
+        {
+            ProjectList.Items.Clear();
+            string[] projectFiles = Directory.GetFiles(ProjectsFolderPath, "*.txt");
+            foreach (string projectFile in projectFiles)
+            {
+                ProjectList.Items.Add(Path.GetFileName(projectFile));
+            }
+        }
+
+        private void NewMethod(string newProjectFileName)
+        {
+            SelectedFilePath = newProjectFileName;
+        }
+
+        private void NewProjectBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // Open the NewProjectPopup when NewProjectBtn is clicked
+            NewProjectPopup.IsOpen = true;
+        }
+
+        private void Notes_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Ensure that the Notes field is not empty
+            if (Notes.Document.Blocks.Count > 0)
+            {
+                // Get the text from the Notes field
+                TextRange textRange = new TextRange(Notes.Document.ContentStart, Notes.Document.ContentEnd);
+
+                // Check if the text is not empty or just whitespace
+                if (!string.IsNullOrWhiteSpace(textRange.Text))
+                {
+                    // Proceed with appending the notes to the text file
+                    string notes = textRange.Text.Trim(); // Trim any leading or trailing whitespace
+
+                    // Append the notes to the selected file
+                    if (!string.IsNullOrEmpty(SelectedFilePath))
+                    {
+                        using (StreamWriter writer = new StreamWriter(SelectedFilePath, true))
+                        {
+                            writer.WriteLine("Notes: " + notes);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void OnButtonClick(object sender, RoutedEventArgs e)
+        {
+            QuickActionWindow quickActionWindow = new TimeTrackerWPF.QuickActionWindow();
+            quickActionWindow.ShowDialog();
+        }
+
         private void ProjectList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ProjectList.SelectedItem != null)
@@ -147,6 +188,25 @@ namespace TimeTrackerWPF
 
                 // Clear text box
                 Notes.Document.Blocks.Clear();
+            }
+        }
+
+        // Close the NewProjectWindow NewProjectNameBox.Close(); }
+        private void SaveNotesToFile()
+        {
+            // Check if a project is selected
+            if (!string.IsNullOrEmpty(SelectedFilePath))
+            {
+                // Output the notes to the selected file
+                using (StreamWriter writer = new StreamWriter(SelectedFilePath, true))
+                {
+                    // Add notes to the file
+                    TextRange textRange = new TextRange(Notes.Document.ContentStart, Notes.Document.ContentEnd);
+                    if (!string.IsNullOrWhiteSpace(textRange.Text))
+                    {
+                        writer.WriteLine($"Notes: {textRange.Text}");
+                    }
+                }
             }
         }
 
@@ -208,6 +268,15 @@ namespace TimeTrackerWPF
             UpdateButtonText();
         }
 
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (DateTime.Now.Hour == 12)
+            {
+                this.Topmost = true;
+                this.Topmost = false;
+            }
+        }
+
         private void UpdateButtonText()
         {
             // Update the button text based on the timer state
@@ -226,70 +295,5 @@ namespace TimeTrackerWPF
         //{
         // Add your logic here for what happens when "Create" button is clicked
         //   MessageBox.Show("Project created!"); // Placeholder, replace with your actual logic
-
-        // Close the NewProjectWindow
-        // NewProjectNameBox.Close();
-        // }
-
-        private void Notes_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            // Ensure that the Notes field is not empty
-            if (Notes.Document.Blocks.Count > 0)
-            {
-                // Get the text from the Notes field
-                TextRange textRange = new TextRange(Notes.Document.ContentStart, Notes.Document.ContentEnd);
-
-                // Check if the text is not empty or just whitespace
-                if (!string.IsNullOrWhiteSpace(textRange.Text))
-                {
-                    // Proceed with appending the notes to the text file
-                    string notes = textRange.Text.Trim(); // Trim any leading or trailing whitespace
-
-                    // Append the notes to the selected file
-                    if (!string.IsNullOrEmpty(SelectedFilePath))
-                    {
-                        using (StreamWriter writer = new StreamWriter(SelectedFilePath, true))
-                        {
-                            writer.WriteLine("Notes: " + notes);
-                        }
-                    }
-                }
-            }
-        }
-
-        private string GetTextFromRichTextBox(RichTextBox richTextBox)
-        {
-            // Create a StringBuilder to concatenate text from all blocks
-            StringBuilder sb = new StringBuilder();
-
-            // Iterate through each block and append its text to the StringBuilder
-            foreach (Block block in richTextBox.Document.Blocks)
-            {
-                if (block is Paragraph paragraph)
-                {
-                    sb.AppendLine(paragraph.Inlines.FirstOrDefault()?.ContentStart.GetTextInRun(LogicalDirection.Forward));
-                }
-            }
-
-            return sb.ToString();
-        }
-
-        private void SaveNotesToFile()
-        {
-            // Check if a project is selected
-            if (!string.IsNullOrEmpty(SelectedFilePath))
-            {
-                // Output the notes to the selected file
-                using (StreamWriter writer = new StreamWriter(SelectedFilePath, true))
-                {
-                    // Add notes to the file
-                    TextRange textRange = new TextRange(Notes.Document.ContentStart, Notes.Document.ContentEnd);
-                    if (!string.IsNullOrWhiteSpace(textRange.Text))
-                    {
-                        writer.WriteLine($"Notes: {textRange.Text}");
-                    }
-                }
-            }
-        }
     }
 }

@@ -31,5 +31,6 @@
                 <Button Content="Create" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Height="25" Margin="0,0,0,5" Click="CreateNewProjectButton_Click" />
             </Grid>
         </Popup>
+        <ui:Button Content="Button" HorizontalAlignment="Left" Margin="326,137,0,0" VerticalAlignment="Top" Width="75" Click="OnButtonClick" />
     </Grid>
 </Window>
