@@ -1,11 +1,9 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TimeTrackerWPF"
-        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        x:Class="TimeTrackerWPF.QuickActionWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Class="TimeTrackerWPF.QuickActionWindow"
         mc:Ignorable="d"
         Title="QuickActionWindow" Height="500" Width="250" Icon="assets/Icons/icons8-kill-time-96.ico">
     <Window.Background>
@@ -21,18 +19,21 @@
                             <Grid.Background>
                                 <SolidColorBrush Color="#FF215BAC" Opacity="0.6" />
                             </Grid.Background>
-                            <TextBox x:Name="FriendlyName" Width="150" Height="30" Margin="25,107,25,42" />
+                            <TextBox x:Name="LinkTextBox" Width="150" Height="30" Margin="25,107,25,42" />
                             <Button Content="Create" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Height="25" Margin="0,0,0,5" Click="CreateRecordOnClick" />
                             <Label Content="Link/Location" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" FontWeight="Bold" />
                             <Label Content="Friendly Name" HorizontalAlignment="Left" Margin="10,27,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-                            <TextBox x:Name="LinkTextBox" HorizontalAlignment="Left" Height="28" Margin="25,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" />
+                            <TextBox x:Name="FriendlyNameTextBox" HorizontalAlignment="Left" Height="28" Margin="25,53,0,0" VerticalAlignment="Top" Width="150" TextChanged="FriendlyNameOnTextChange" />
                             <Label Content="Create New Button Entry" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" />
                         </Grid>
                     </Popup>
+                    <StackPanel x:Name="ButtonsPanel" HorizontalAlignment="Left" Height="396" Margin="0,26,-0.143,0" VerticalAlignment="Top" Width="219" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="QuickEmailTab" Header="Quick Emails">
-                <Grid />
+                <Grid>
+                    <Button x:Name="OnPremBeforePrjEmail" Content="Before Project Email" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="199" Height="28" FontWeight="Bold" FontSize="14" Click="BeforePrjEmailOnClick" />
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

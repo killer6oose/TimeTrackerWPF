@@ -13,17 +13,17 @@
 
     <Grid>
 
-        <RichTextBox x:Name="Notes" HorizontalAlignment="Left" Height="74" Margin="27,84,0,0" VerticalAlignment="Top" Width="260" SpellCheck.IsEnabled="True" Cursor="IBeam" ForceCursor="True" TextChanged="Notes_TextChanged">
+        <RichTextBox x:Name="Notes" HorizontalAlignment="Left" Height="74" Margin="27,84,0,0" VerticalAlignment="Top" Width="260" SpellCheck.IsEnabled="True" Cursor="IBeam" ForceCursor="True" IsReadOnly="True" LostFocus="NotesOnLostFocus">
             <RichTextBox.Background>
                 <SolidColorBrush Color="#FF7E9C9E" Opacity="0.74" />
             </RichTextBox.Background>
             <FlowDocument />
         </RichTextBox>
         <Label x:Name="NotesLabel" Content="Notes:" HorizontalAlignment="Left" Margin="14,58,0,0" VerticalAlignment="Top" Background="#00000000" FontWeight="Bold" Foreground="Red" />
-        <Button x:Name="StartStopBtn" Content="START" HorizontalAlignment="Left" Margin="326,84,0,0" VerticalAlignment="Top" Width="75" Background="#FF7E9C9E" Foreground="Black" FontWeight="Bold" ToolTip="Start or Stop the timer." Click="StartStopBtn_Click" ClickMode="Press" />
+        <Button x:Name="StartStopBtn" Content="START" HorizontalAlignment="Left" Margin="319,84,0,0" VerticalAlignment="Top" Width="82" Background="#FF7E9C9E" Foreground="Black" FontWeight="Bold" ToolTip="Start or Stop the timer." Click="StartStopBtn_Click" ClickMode="Press" />
         <ComboBox x:Name="ProjectList" HorizontalAlignment="Left" Margin="27,31,0,0" VerticalAlignment="Top" Width="260" Background="#FF7E9C9E" BorderBrush="#FF7E9C9E" SelectionChanged="ProjectList_SelectionChanged" />
         <Label x:Name="PrjctDropdown" Content="Select a project:" HorizontalAlignment="Left" Margin="14,5,0,0" VerticalAlignment="Top" Foreground="Red" FontWeight="Bold" />
-        <Button x:Name="NewProjectBtn" Content="New Project" HorizontalAlignment="Left" Margin="326,32,0,0" VerticalAlignment="Top" Width="75" Background="#FF7E9C9E" FontWeight="Bold" Click="NewProjectBtn_Click" />
+        <Button x:Name="NewProjectBtn" Content="New Project" HorizontalAlignment="Left" Margin="319,32,0,0" VerticalAlignment="Top" Width="82" Background="#FF7E9C9E" FontWeight="Bold" Click="NewProjectBtn_Click" />
         <!-- Popup for entering new project name -->
         <Popup x:Name="NewProjectPopup" IsOpen="False" Placement="Center">
             <Grid Background="#CC000000" Width="200" Height="100">
@@ -31,6 +31,6 @@
                 <Button Content="Create" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Height="25" Margin="0,0,0,5" Click="CreateNewProjectButton_Click" />
             </Grid>
         </Popup>
-        <ui:Button Content="Button" HorizontalAlignment="Left" Margin="326,137,0,0" VerticalAlignment="Top" Width="75" Click="OnButtonClick" />
+        <ui:Button x:Name="QuickActionsBtn" Content="Quick Actions" Background="#FF7E9C9E" HorizontalAlignment="Left" Margin="319,137,0,0" VerticalAlignment="Top" Width="82" Click="OnButtonClick" FontWeight="Bold" />
     </Grid>
 </Window>
