@@ -7,9 +7,9 @@ using System.Windows;
 [assembly: AssemblyTitle("TimeTrackerWPF")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TimeTrackerWPF")]
-[assembly: AssemblyCopyright("Copyright ©  2024")]
+[assembly: AssemblyCompany("Andrew Hatton d.b.a. CronoTech Consulting")]
+[assembly: AssemblyProduct("Task Tracker")]
+[assembly: AssemblyCopyright("Copyright © Andrew Hatton 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

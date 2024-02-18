@@ -1,0 +1,61 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Class="TimeTrackerWPF.Views.QuickActionWindow"
+        mc:Ignorable="d"
+        Title="Quick Actions" Height="525.298" Width="253.873" Icon="/assets/Icons/icons8-kill-time-96.ico">
+    <Window.Background>
+        <ImageBrush ImageSource="/TimeTrackerWPF;component/assets/BackgrounImages/background_4.png" Opacity="0.7" />
+    </Window.Background>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_View Source" Click="ViewSourceOnClick">
+                    <MenuItem.Icon>
+                        <Image Source="/TimeTrackerWPF;component/assets/Icons/github-mark.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_About" Click="QAAboutLinkOnClick">
+                    <MenuItem.Icon>
+                        <Image Source="/TimeTrackerWPF;component/assets/Icons/noun-code-176980.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Browse Project Files" Click="QABrowseFilesOnClick">
+                <MenuItem.Icon>
+                    <Image Source="/TimeTrackerWPF;component/assets/Icons/noun-code-45869.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <TabControl HorizontalAlignment="Left" Height="451" Margin="10,10,0,0" VerticalAlignment="Top" Width="225" Background="{x:Null}">
+                <TabItem x:Name="QuickLinksTab" Header="Quick Links">
+                    <Grid>
+                        <Button Content="Create New Entry" Click="NewEntryPopupOnClick" VerticalAlignment="Top" />
+                        <Popup x:Name="NewEntryPopup" IsOpen="False" Placement="Center">
+                            <Grid Width="200" Height="179">
+                                <Grid.Background>
+                                    <SolidColorBrush Color="#FF215BAC" Opacity="0.6" />
+                                </Grid.Background>
+                                <TextBox x:Name="LinkTextBox" Width="150" Height="30" Margin="25,107,25,42" />
+                                <Button Content="Create" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75" Height="25" Margin="0,0,0,5" Click="CreateRecordOnClick" />
+                                <Label Content="Link/Location" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+                                <Label Content="Friendly Name" HorizontalAlignment="Left" Margin="10,27,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+                                <TextBox x:Name="FriendlyNameTextBox" HorizontalAlignment="Left" Height="28" Margin="25,53,0,0" VerticalAlignment="Top" Width="150" TextChanged="FriendlyNameOnTextChange" />
+                                <Label Content="Create New Button Entry" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" />
+                            </Grid>
+                        </Popup>
+                        <StackPanel x:Name="ButtonsPanel" HorizontalAlignment="Left" Height="388" Margin="0,34,-0.143,0" VerticalAlignment="Top" Width="219" />
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="QuickEmailTab" Header="Quick Emails">
+                    <Grid>
+                        <Button x:Name="OnPremBeforePrjEmail" Content="Before Project Email" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="199" Height="28" FontWeight="Bold" FontSize="14" Click="BeforePrjEmailOnClick" />
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</Window>
